@@ -1,4 +1,5 @@
 import streamlit as st
+from ExportDataGoogle import export_to_google
 
 # logo and page title
 st.set_page_config(
@@ -112,20 +113,8 @@ for i in osi:
 for i in ob:
     olymb.append(int(i))
 
-while True:
-    if (
-            len(players) == len(heartsgp) == len(heartsw) == len(heartsl) == len(crownsgp) == len(crownsw) == len(
-        crownsl) == len(dicegp) == len(dicew) == len(dicel) == len(diceiw) == len(dicenp) == len(olymgp) == len(
-        olymw) == len(olymg) == len(olyms) == len(olymb)
-    ):
-        break
-    else:
-        st.write("ERROR: Lengths of lists")
-        st.stop()
-
-
-def newplayer():
-    players.append(name)
+def newplayer(name):
+    players.append(name.title())
     heartsgp.append(0)
     heartsw.append(0)
     heartsl.append(0)
@@ -142,6 +131,91 @@ def newplayer():
     olymg.append(0)
     olyms.append(0)
     olymb.append(0)
+
+
+def endseq():
+    # player file
+    p = open("players", 'w')
+    for i in players:
+        p.write(i + "\n")
+    
+    # hearts files
+    hgp = open("hearts games played", 'w')
+    for i in heartsgp:
+        hgp.write(str(i) + "\n")
+    hw = open("hearts wins", 'w')
+    for i in heartsw:
+        hw.write(str(i) + "\n")
+    hl = open("hearts losses", 'w')
+    for i in heartsl:
+        hl.write(str(i) + "\n")
+    
+    # 5 crowns files
+    cgp = open("5 crowns games played", 'w')
+    for i in crownsgp:
+        cgp.write(str(i) + "\n")
+    cw = open("5 crowns wins", 'w')
+    for i in crownsw:
+        cw.write(str(i) + "\n")
+    cl = open("5 crowns losses", 'w')
+    for i in crownsl:
+        cl.write(str(i) + "\n")
+    
+    # dice files
+    dgp = open("dice games played", 'w')
+    for i in dicegp:
+        dgp.write(str(i) + "\n")
+    dw = open("dice wins", 'w')
+    for i in dicew:
+        dw.write(str(i) + "\n")
+    dl = open("dice losses", 'w')
+    for i in dicel:
+        dl.write(str(i) + "\n")
+    dnp = open("dice no points", 'w')
+    for i in dicenp:
+        dnp.write(str(i) + "\n")
+    diw = open("dice instant wins", 'w')
+    for i in diceiw:
+        diw.write(str(i) + "\n")
+    
+    # olympic files
+    op = open("olympics participated", 'w')
+    for i in olymgp:
+        op.write(str(i) + "\n")
+    ow = open("olympic wins", 'w')
+    for i in olymw:
+        ow.write(str(i) + "\n")
+    og = open("olympic golds", 'w')
+    for i in olymg:
+        og.write(str(i) + "\n")
+    osi = open("olympic silvers", 'w')
+    for i in olyms:
+        osi.write(str(i) + "\n")
+    ob = open("olympic bronzes", 'w')
+    for i in olymb:
+        ob.write(str(i) + "\n")
+    
+    # close files
+    p.close()
+    hgp.close()
+    hw.close()
+    hl.close()
+    cgp.close()
+    cw.close()
+    cl.close()
+    dgp.close()
+    dw.close()
+    dl.close()
+    diw.close()
+    dnp.close()
+    op.close()
+    ow.close()
+    og.close()
+    osi.close()
+    ob.close()
+
+    export_to_google(players, heartsgp, heartsw, heartsl, crownsgp, crownsw, crownsl, dicegp, dicew, dicel, dicenp, diceiw,
+     olymgp, olymw, olymg, olyms, olymb)
 
 
 # reset values
@@ -240,7 +314,29 @@ if game == "Hearts":
         if st.button("Confirm"):
             if not st.session_state["submitted"]:
                 # add code to lists, then files, then close files.
-                # make sure names are lower case before appending
+                for i in range(numplayers):
+                    for j in range(len(players)):
+                        if st.session_state[f"name_{i}"].lower() == players[j].lower():
+                            heartsgp[j] += 1
+                            break
+                    else:
+                        newplayer(st.session_state[f"name_{i}"])
+                        for k in range(len(players)):
+                            if st.session_state[f"name_{i}"].lower() == players[k].lower():
+                                heartsgp[k] += 1
+
+                    if st.session_state[f"win_{i}"] == "Winner":
+                        for j in range(len(players)):
+                            if st.session_state[f"name_{i}"].lower() == players[j].lower():
+                                heartsw[j] += 1
+
+                    if st.session_state[f"win_{i}"] == "Loser":
+                        for j in range(len(players)):
+                            if st.session_state[f"name_{i}"].lower() == players[j].lower():
+                                heartsl[j] += 1
+
+                endseq()
+
                 st.session_state["submitted"] = True
                 st.session_state["confirmed"] = True
             else:
@@ -325,7 +421,29 @@ if game == "5 Crowns":
         if st.button("Confirm"):
             if not st.session_state["submitted"]:
                 # add code to lists, then files, then close files.
-                # make sure names are lower case before appending
+                for i in range(numplayers):
+                    for j in range(len(players)):
+                        if st.session_state[f"name_{i}"].lower() == players[j].lower():
+                            crownsgp[j] += 1
+                            break
+                    else:
+                        newplayer(st.session_state[f"name_{i}"])
+                        for k in range(len(players)):
+                            if st.session_state[f"name_{i}"].lower() == players[k].lower():
+                                crownsgp[k] += 1
+
+                    if st.session_state[f"win_{i}"] == "Winner":
+                        for j in range(len(players)):
+                            if st.session_state[f"name_{i}"].lower() == players[j].lower():
+                                crownsw[j] += 1
+
+                    if st.session_state[f"win_{i}"] == "Loser":
+                        for j in range(len(players)):
+                            if st.session_state[f"name_{i}"].lower() == players[j].lower():
+                                crownsl[j] += 1
+
+                endseq()
+                
                 st.session_state["submitted"] = True
                 st.session_state["confirmed"] = True
             else:
@@ -430,7 +548,39 @@ if game == "Dice":
         if st.button("Confirm"):
             if not st.session_state["submitted"]:
                 # add code to lists, then files, then close files.
-                # make sure names are lower case before appending
+                for i in range(numplayers):
+                    for j in range(len(players)):
+                        if st.session_state[f"name_{i}"].lower() == players[j].lower():
+                            dicegp[j] += 1
+                            break
+                    else:
+                        newplayer(st.session_state[f"name_{i}"])
+                        for k in range(len(players)):
+                            if st.session_state[f"name_{i}"].lower() == players[k].lower():
+                                dicegp[k] += 1
+
+                    if st.session_state[f"win_{i}"] == "Winner":
+                        for j in range(len(players)):
+                            if st.session_state[f"name_{i}"].lower() == players[j].lower():
+                                dicew[j] += 1
+
+                    if st.session_state[f"win_{i}"] == "Loser":
+                        for j in range(len(players)):
+                            if st.session_state[f"name_{i}"].lower() == players[j].lower():
+                                dicel[j] += 1
+
+                    if st.session_state[f"board_{i}"] == "No":
+                        for j in range(len(players)):
+                            if st.session_state[f"name_{i}"].lower() == players[j].lower():
+                                dicenp[j] += 1
+                                
+                    if st.session_state[f"instant_{i}"] == "Yes":
+                        for j in range(len(players)):
+                            if st.session_state[f"name_{i}"].lower() == players[j].lower():
+                                diceiw[j] += 1
+
+                endseq()
+                
                 st.session_state["submitted"] = True
                 st.session_state["confirmed"] = True
             else:
@@ -547,7 +697,31 @@ if game == "Olympics":
         if st.button("Confirm"):
             if not st.session_state["submitted"]:
                 # add code to lists, then files, then close files.
-                # make sure names are lower case before appending
+                for i in range(perteam * numteams):
+                    team = i // perteam
+                    for j in range(len(players)):
+                        if st.session_state[f"name_{i}"].lower() == players[j].lower():
+                            olymgp[j] += 1
+                            olymg[j] += st.session_state[f"golds_{team}"]
+                            olyms[j] += st.session_state[f"silvers_{team}"]
+                            olymb[j] += st.session_state[f"bronzes_{team}"]
+                            if st.session_state[f"win_{team}"] == "Yes":
+                                olymw[j] += 1
+                            break
+                    else:
+                        newplayer(st.session_state[f"name_{i}"])
+                        for j in range(len(players)):
+                            if st.session_state[f"name_{i}"].lower() == players[j].lower():
+                                olymgp[j] += 1
+                                olymg[j] += st.session_state[f"golds_{team}"]
+                                olyms[j] += st.session_state[f"silvers_{team}"]
+                                olymb[j] += st.session_state[f"bronzes_{team}"]
+                                if st.session_state[f"win_{team}"] == "Yes":
+                                    olymw[j] += 1
+                                break
+                                    
+                endseq()
+                            
                 st.session_state["submitted"] = True
                 st.session_state["confirmed"] = True
             else:
