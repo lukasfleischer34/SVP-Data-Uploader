@@ -512,20 +512,25 @@ if game == "Dice":
             index=None,
             key=f"win_{i}"
         )
-
+        
+        st.session_state[f"board_{i}"] = "Yes"
+        st.session_state[f"instant_{i}"] = "No"
+        
         if win == "Winner":
-            st.radio("Instant Win?",
-                     ["Yes", "No"],
-                     index=None,
-                     key=f"instant_{i}"
-                     )
-
-        if win == "Loser":
-            st.radio("On Board?",
-                     ["Yes", "No"],
-                     index=None,
-                     key=f"board_{i}"
-                     )
+            st.session_state[f"instant_{i}"] = st.radio(
+                "Instant Win?",
+                ["Yes", "No"],
+                index=None,
+                key=f"instant_{i}"
+            )
+        
+        elif win == "Loser":
+            st.session_state[f"board_{i}"] = st.radio(
+                "On Board?",
+                ["Yes", "No"],
+                index=None,
+                key=f"board_{i}"
+            )
 
     # popup
     @st.dialog("Confirm Submission")
