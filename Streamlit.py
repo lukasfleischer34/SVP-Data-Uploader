@@ -511,26 +511,30 @@ if game == "Dice":
             ["Winner", "Loser", "Neither"],
             index=None,
             key=f"win_{i}"
-        )
-        
-        st.session_state[f"board_{i}"] = "Yes"
-        st.session_state[f"instant_{i}"] = "No"
-        
+            )
+
         if win == "Winner":
-            st.session_state[f"instant_{i}"] = st.radio(
+            st.radio(
                 "Instant Win?",
                 ["Yes", "No"],
                 index=None,
                 key=f"instant_{i}"
-            )
+                )
+            st.session_state[f"board_{i}"] = "Yes"
         
-        elif win == "Loser":
-            st.session_state[f"board_{i}"] = st.radio(
+        if win == "Loser":
+            st.radio(
                 "On Board?",
                 ["Yes", "No"],
                 index=None,
                 key=f"board_{i}"
-            )
+                )
+            st.session_state[f"instant_{i}"] = "No"
+
+        if win == "Neither":
+            st.session_state[f"instant_{i}"] = "No"
+            st.session_state[f"board_{i}"] = "Yes"
+    
 
     # popup
     @st.dialog("Confirm Submission")
@@ -666,14 +670,14 @@ if game == "Olympics":
             "Silvers:",
             value=0,
             min_value=0,
-            step=0,
+            step=1,
             key=f"silvers_{i}"
         )
         bronzes = st.number_input(
             "Bronzes:",
             value=0,
             min_value=0,
-            step=0,
+            step=1,
             key=f"bronzes_{i}"
         )
         win = st.radio(
