@@ -1,5 +1,5 @@
 import streamlit as st
-from ExportDataGoogle import export_to_google
+from ExportDataGoogle import export_to_google, load_from_google
 
 # logo and page title
 st.set_page_config(
@@ -23,95 +23,11 @@ with col2:
     </p>
     """, unsafe_allow_html=True)
 
-# empty lists
-players = []
-heartsgp = []
-heartsw = []
-heartsl = []
-crownsgp = []
-crownsw = []
-crownsl = []
-dicegp = []
-dicew = []
-dicel = []
-dicenp = []
-diceiw = []
-olymgp = []
-olymw = []
-olymg = []
-olyms = []
-olymb = []
+players, heartsgp, heartsw, heartsl, \
+crownsgp, crownsw, crownsl, \
+dicegp, dicew, dicel, dicenp, diceiw, \
+olymgp, olymw, olymg, olyms, olymb = load_from_google()
 
-# player file
-p = open("players", 'r')
-
-# hearts files
-hgp = open("hearts games played", 'r')
-hw = open("hearts wins", 'r')
-hl = open("hearts losses", 'r')
-
-# 5 crowns files
-cgp = open("5 crowns games played", 'r')
-cw = open("5 crowns wins", 'r')
-cl = open("5 crowns losses", 'r')
-
-# dice files
-dgp = open("dice games played", 'r')
-dw = open("dice wins", 'r')
-dl = open("dice losses", 'r')
-dnp = open("dice no points", 'r')
-diw = open("dice instant wins", 'r')
-
-# olympic files
-op = open("olympics participated", 'r')
-ow = open("olympic wins", 'r')
-og = open("olympic golds", 'r')
-osi = open("olympic silvers", 'r')
-ob = open("olympic bronzes", 'r')
-
-# players list
-for i in p:
-    players.append(i.strip().title())
-
-# hearts lists
-for i in hgp:
-    heartsgp.append(int(i))
-for i in hw:
-    heartsw.append(int(i))
-for i in hl:
-    heartsl.append(int(i))
-
-# 5 crowns lists
-for i in cgp:
-    crownsgp.append(int(i))
-for i in cw:
-    crownsw.append(int(i))
-for i in cl:
-    crownsl.append(int(i))
-
-# dice lists
-for i in dgp:
-    dicegp.append(int(i))
-for i in dw:
-    dicew.append(int(i))
-for i in dl:
-    dicel.append(int(i))
-for i in diw:
-    diceiw.append(int(i))
-for i in dnp:
-    dicenp.append(int(i))
-
-# olympic lists
-for i in op:
-    olymgp.append(int(i))
-for i in ow:
-    olymw.append(int(i))
-for i in og:
-    olymg.append(int(i))
-for i in osi:
-    olyms.append(int(i))
-for i in ob:
-    olymb.append(int(i))
 
 def newplayer(name):
     players.append(name.title())
@@ -131,91 +47,6 @@ def newplayer(name):
     olymg.append(0)
     olyms.append(0)
     olymb.append(0)
-
-
-def endseq():
-    # player file
-    p = open("players", 'w')
-    for i in players:
-        p.write(i + "\n")
-    
-    # hearts files
-    hgp = open("hearts games played", 'w')
-    for i in heartsgp:
-        hgp.write(str(i) + "\n")
-    hw = open("hearts wins", 'w')
-    for i in heartsw:
-        hw.write(str(i) + "\n")
-    hl = open("hearts losses", 'w')
-    for i in heartsl:
-        hl.write(str(i) + "\n")
-    
-    # 5 crowns files
-    cgp = open("5 crowns games played", 'w')
-    for i in crownsgp:
-        cgp.write(str(i) + "\n")
-    cw = open("5 crowns wins", 'w')
-    for i in crownsw:
-        cw.write(str(i) + "\n")
-    cl = open("5 crowns losses", 'w')
-    for i in crownsl:
-        cl.write(str(i) + "\n")
-    
-    # dice files
-    dgp = open("dice games played", 'w')
-    for i in dicegp:
-        dgp.write(str(i) + "\n")
-    dw = open("dice wins", 'w')
-    for i in dicew:
-        dw.write(str(i) + "\n")
-    dl = open("dice losses", 'w')
-    for i in dicel:
-        dl.write(str(i) + "\n")
-    dnp = open("dice no points", 'w')
-    for i in dicenp:
-        dnp.write(str(i) + "\n")
-    diw = open("dice instant wins", 'w')
-    for i in diceiw:
-        diw.write(str(i) + "\n")
-    
-    # olympic files
-    op = open("olympics participated", 'w')
-    for i in olymgp:
-        op.write(str(i) + "\n")
-    ow = open("olympic wins", 'w')
-    for i in olymw:
-        ow.write(str(i) + "\n")
-    og = open("olympic golds", 'w')
-    for i in olymg:
-        og.write(str(i) + "\n")
-    osi = open("olympic silvers", 'w')
-    for i in olyms:
-        osi.write(str(i) + "\n")
-    ob = open("olympic bronzes", 'w')
-    for i in olymb:
-        ob.write(str(i) + "\n")
-    
-    # close files
-    p.close()
-    hgp.close()
-    hw.close()
-    hl.close()
-    cgp.close()
-    cw.close()
-    cl.close()
-    dgp.close()
-    dw.close()
-    dl.close()
-    diw.close()
-    dnp.close()
-    op.close()
-    ow.close()
-    og.close()
-    osi.close()
-    ob.close()
-
-    export_to_google(players, heartsgp, heartsw, heartsl, crownsgp, crownsw, crownsl, dicegp, dicew, dicel, dicenp, diceiw,
-     olymgp, olymw, olymg, olyms, olymb)
 
 
 # reset values
@@ -335,7 +166,8 @@ if game == "Hearts":
                             if st.session_state[f"name_{i}"].lower() == players[j].lower():
                                 heartsl[j] += 1
 
-                endseq()
+                export_to_google(players, heartsgp, heartsw, heartsl, crownsgp, crownsw, crownsl, dicegp, dicew, dicel, dicenp, diceiw,
+                 olymgp, olymw, olymg, olyms, olymb)
 
                 st.session_state["submitted"] = True
                 st.session_state["confirmed"] = True
@@ -442,7 +274,8 @@ if game == "5 Crowns":
                             if st.session_state[f"name_{i}"].lower() == players[j].lower():
                                 crownsl[j] += 1
 
-                endseq()
+                export_to_google(players, heartsgp, heartsw, heartsl, crownsgp, crownsw, crownsl, dicegp, dicew, dicel, dicenp, diceiw,
+                 olymgp, olymw, olymg, olyms, olymb)
                 
                 st.session_state["submitted"] = True
                 st.session_state["confirmed"] = True
@@ -588,7 +421,8 @@ if game == "Dice":
                             if st.session_state[f"name_{i}"].lower() == players[j].lower():
                                 diceiw[j] += 1
 
-                endseq()
+                export_to_google(players, heartsgp, heartsw, heartsl, crownsgp, crownsw, crownsl, dicegp, dicew, dicel, dicenp, diceiw,
+                 olymgp, olymw, olymg, olyms, olymb)
                 
                 st.session_state["submitted"] = True
                 st.session_state["confirmed"] = True
@@ -729,7 +563,8 @@ if game == "Olympics":
                                     olymw[j] += 1
                                 break
                                     
-                endseq()
+                export_to_google(players, heartsgp, heartsw, heartsl, crownsgp, crownsw, crownsl, dicegp, dicew, dicel, dicenp, diceiw,
+                 olymgp, olymw, olymg, olyms, olymb)
                             
                 st.session_state["submitted"] = True
                 st.session_state["confirmed"] = True
